@@ -9,7 +9,7 @@ jobs:
       - checkout
       - run:
           name: Install Openssl
-          command: sudo apt-get update; sudo apt-get install openssl
+          command: apt-get update; apt-get install openssl
       - run:
           name: Decrypt server key
           command: openssl aes-256-cbc -d -in server-cipher -out server.key -k $encryption_key
