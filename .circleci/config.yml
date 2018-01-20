@@ -3,6 +3,9 @@ jobs:
   build:
     docker:
       - image: debian:stretch
+    dependencies:
+      pre:
+        - sudo apt-get update; sudo apt-get install openssl
     steps:
       - checkout
       - run:
