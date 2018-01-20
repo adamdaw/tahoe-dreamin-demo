@@ -26,8 +26,8 @@ jobs:
           name: add sfdx to path
           command: export PATH=./sfdx/$(pwd):$PATH
       - run:
-          name: update and check sfdx
-          command: sfdx update; sfdx --version; sfdx plugins --core; sfdx force:auth:jwt:grant --clientid $consumer_key --jwtkeyfile server.key --username $username --setdefaultdevhubusername -a HubOrg
+          name: update and check sfdx, install LTS
+          command: sfdx update; sfdx --version; sfdx plugins --core; sfdx force:auth:jwt:grant --clientid $consumer_key --jwtkeyfile server.key --username $username --setdefaultdevhubusername -a HubOrg; sfdx force:lightning:test:install
       - run:
           name: create scratch org
           command: sfdx force:org:create -v HubOrg -s -f config/project-scratch-def.json -a ciorg
@@ -35,8 +35,8 @@ jobs:
           name: push source
           command: sfdx force:source:push -u ciorg
       - run:
-          name: run tests
-          command: sfdx force:apex:test:run -u ciorg -c -r human
+          name: run tests; run lightning tests
+          command: sfdx force:apex:test:run -u ciorg -c -r human; sfdx force:lightning:test:run -a jasmineTests.app
       - run:
           name: delete scratch
           command: sfdx force:org:delete -u ciorg -p
