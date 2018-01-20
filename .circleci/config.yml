@@ -27,7 +27,7 @@ jobs:
           command: export PATH=./sfdx/$(pwd):$PATH
       - run:
           name: update and check sfdx, install LTS
-          command: sfdx update; sfdx --version; sfdx plugins --core; sfdx force:auth:jwt:grant --clientid $consumer_key --jwtkeyfile server.key --username $username --setdefaultdevhubusername -a HubOrg; sfdx force:lightning:test:install
+          command: sfdx update; sfdx --version; sfdx plugins --core; sfdx force:auth:jwt:grant --clientid $consumer_key --jwtkeyfile server.key --username $username --setdefaultusername --setdefaultdevhubusername -a HubOrg; sfdx force:lightning:test:install
       - run:
           name: create scratch org
           command: sfdx force:org:create -v HubOrg -s -f config/project-scratch-def.json -a ciorg
