@@ -28,3 +28,15 @@ jobs:
       - run:
           name: update and check sfdx
           command: sfdx update; sfdx --version; sfdx plugins --core; sfdx force:auth:jwt:grant --clientid $consumer_key --jwtkeyfile server.key --username $username --setdefaultdevhubusername
+      - run:
+          name: create scratch org
+          command: sfdx force:org:create -v HubOrg -s -f config/project-scratch-def.json -a ciorg
+      - run:
+          name: push source
+          command: sfdx force:source:push -u ciorg
+      - run:
+          name: run tests
+          command: sfdx force:apex:test:run -u ciorg -c -r human
+      - run:
+          name: delete scratch
+          command: sfdx force:org:delete -u ciorg -p
