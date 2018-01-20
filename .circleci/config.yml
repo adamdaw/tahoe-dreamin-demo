@@ -14,5 +14,17 @@ jobs:
           name: Decrypt server key
           command: openssl aes-256-cbc -d -in server-cipher -out server.key -k $encryption_key
       - run:
-          name: Print the Current Time
-          command: date
+          name: export values
+          command: export SFDX_AUTOUPDATE_DISABLE=true; export SFDX_USE_GENERIC_UNIX_KEYCHAIN=true; export SFDX_DOMAIN_RETRY=300
+      - run:
+          name: get sfdx
+          command: wget -qO- https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz | tar xJf -  
+      - run:
+          name: install sfdx
+          command: "./sfdx/install"
+      - run:
+          name: add sfdx to path
+          command: export PATH=./sfdx/$(pwd):$PATH
+      - run:
+          name: update and check sfdx
+          command: sfdx update; sfdx --version; sfdx plugins --core; sfdx force:auth:jwt:grant --clientid $consumer_key --jwtkeyfile server.key --username $username --setdefaultdevhubusername
