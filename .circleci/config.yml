@@ -27,7 +27,7 @@ jobs:
           command: export PATH=./sfdx/$(pwd):$PATH
       - run:
           name: update and check sfdx
-          command: sfdx update; sfdx --version; sfdx plugins --core; sfdx force:auth:jwt:grant --clientid $consumer_key --jwtkeyfile server.key --username $username --setdefaultdevhubusername
+          command: sfdx update; sfdx --version; sfdx plugins --core; sfdx force:auth:jwt:grant --clientid $consumer_key --jwtkeyfile server.key --username $username --setdefaultdevhubusername -a HubOrg
       - run:
           name: create scratch org
           command: sfdx force:org:create -v HubOrg -s -f config/project-scratch-def.json -a ciorg
